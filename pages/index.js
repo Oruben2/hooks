@@ -2,6 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
+import react, { useState, useEffect} from "react";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,6 +17,16 @@ const geistMono = localFont({
 });
 
 export default function Home() {
+  const [count, setCount] = useState(0);
+  const handleScroll = () => {
+    setCount(count + scrollY)
+  }
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  })
   return (
     <>
       <Head>
@@ -35,13 +47,23 @@ export default function Home() {
             height={38}
             priority
           />
+
+          <div style={{height: '200vh'}}></div>
           <ol>
             <li>
               Get started by editing <code>pages/index.js</code>.
             </li>
             <li>Save and see your changes instantly.</li>
+
+           
+            <li><p>You have moved {count} spots</p></li>  
+            <button onClick={() => setCount(count + 1)}>
+              Move 1 spot
+            </button>
           </ol>
 
+
+        
           <div className={styles.ctas}>
             <a
               className={styles.primary}
